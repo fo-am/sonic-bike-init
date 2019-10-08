@@ -36,6 +36,7 @@ KillProcess () {
 }
 
 # Kill all running processes
+KillProcess supervise
 KillProcess gpsd_lua
 KillProcess swamp
 KillProcess swamp_playd
@@ -43,4 +44,8 @@ KillProcess bicrophonic1
 KillProcess SonicBikeAudioEngine
 KillProcess audiotest.sh
 KillProcess worms
+KillProcess pd
+KillProcess jackd
+KillProcess python
+KillProcess python3
 

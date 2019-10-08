@@ -2,8 +2,8 @@
 Description=Sonic Bike
 
 [Service]
-ExecStart=/home/sonic/sonic-bike-init/start
-ExecStop=/home/sonic/sonic-bike-init/stop
+ExecStart=/home/pi/sonic-bike-init/start
+ExecStop=/home/pi/sonic-bike-init/stop
 Type=idle
 RemainAfterExit=yes
 
