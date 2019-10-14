@@ -18,7 +18,7 @@
 # Script auto-called via systemd on boot
 
 # The configeration file
-CONFIG="/home/pi/audio/config.json"
+CONFIG="/home/pi/stick/config.json"
 
 # Make sure this script is runs as root so network/mount things work
 LUID=$(id -u)
@@ -35,18 +35,18 @@ else
     # File doesn't exist so try mounting the sdcard/USB stick
     # mount -t vfat -o defaults,rw,umask=0 /dev/mmcblk0p1 /home/sonic/sdcard
     # For beagleboard xM:
-    mount /dev/sda1 /home/pi/audio # -o umask=000
+    mount /dev/sda1 /home/pi/stick # -o umask=000
 fi
 
 # Where should we log startup messages?
-LOGFILE=$(grep '"logfile"' /home/pi/audio/config.json | cut -d '"' -f4)
+LOGFILE=$(grep '"logfile"' /home/pi/stick/config.json | cut -d '"' -f4)
 
 # Which mode (app) should we startup?
 MODE=$(grep '"mode"' $CONFIG | cut -d '"' -f4)
 echo "[start] Found mode: $MODE" 
 
 # Make sure we can write to the SDcard/USB stick (sorry - dirty fix!)
-chmod 777 /home/pi/audio -R
+chmod 777 /home/pi/stick -R
 
 # Setup the soundcard. Needs a little time before volume can be set
 #sleep 1
@@ -60,12 +60,9 @@ if [ X"$MODE" = X"app-kayak" ]; then
     supervise . & 
     cd /home/pi/app-kayak/sensors/therm
     supervise . & 
-    runuser -l pi -c 'cd app-kayak/src/audio_restarter; supervise .' &
+    runuser -l pi -c 'cd app-kayak/audio_restarter; supervise .' &
     cd /home/pi/app-kayak/src
     ./swamp & 
-    # run as pi to pick up .asoundrc
-    #su pi ./start_jack.sh
-    #    pd -nogui -audiodev 3 -path /home/pi/pd-iemnet:/home/pi/osc /home/pi/audio/audiotest/pd/select.pd &    
     
 elif [ X"$MODE" = X"app-findingsong" ]; then
     cd /home/pi/app-findingsong/src
